@@ -1,7 +1,7 @@
 import React from 'react';
 //import 'Todos.css';
 
-// app.js 에서 props 를 배열로 받아서 map로 돌면서 그려보는 예제
+// #2. app.js 에서 props 를 배열로 받아서 map로 돌면서 그려보는 예제
 const Todos = (props) => {
   console.log('====>', props);
   return(
@@ -9,7 +9,7 @@ const Todos = (props) => {
     <h2>{props.title}</h2>
       <ul>
         {props.items.map((item, index) => {
-          return <li key={index}><input type="checkbox"/>{item}</li>;
+          return <li key={index}><input type="checkbox" defaultChecked={item.completed}/>{item.name}</li>;
         })}
       </ul>
     </div>
