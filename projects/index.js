@@ -1,48 +1,36 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Prompt } from "react-router-dom";
 import "./App.css";
 
-const isLoggedIn = false;
+const Home = () => <h1>Home</h1>;
 
-const Links = () => (
-  <nav>
-    <Link to="/">Home</Link>
-    <Link to="/protected">인증된 사람만..</Link>
-  </nav>
-);
-
-const SignIn = () => (
-  <div>
-    <input placeholder="ID" type="text" />
-    <input placeholder="PW" type="password" />
-  </div>
-);
-
-const ProtectedPage = () => <h2>인증된 페이지</h2>;
+class Form extends React.Component {
+  state = { dirty: false };
+  setDirty = () => this.setState({ dirth: true });
+  render() {
+    return (
+      <div>
+        <h1>Form {this.state.dirty ? "작성중" : ""}</h1>
+        <input type="text" onInput={this.setDirty} />
+        <Prompt
+          when={this.state.dirty}
+          message={"저장되지 않는 데이터가 있습니다. 이동 하시겠습니까?"}
+        />
+      </div>
+    );
+  }
+}
 
 const App = () => (
-  <Router>
-    <div>
-      <Links />
-      <Route exact path="/" render={() => <h1>Home</h1>} />
-      <Route
-        path="/signin"
-        render={() => (isLoggedIn ? <Redirect to="protected" /> : <SignIn />)}
-      />
-      <Route
-        path="/protected"
-        render={() =>
-          isLoggedIn ? <ProtectedPage /> : <Redirect to="/signin" />
-        }
-      />
-    </div>
-  </Router>
+  <div>
+    <Router>
+      <Link to="/">Home</Link>
+      <Link to="/form">Form</Link>
+      <Route exact path="/" Component={Home} />
+      <Route path="/form" Component={Form} />
+    </Router>
+  </div>
 );
 
 ReactDOM.render(<App />, document.getElementById("root"));
